@@ -8,7 +8,9 @@ import java.io.File
 import java.nio.charset.Charset
 
 @Service
-class CsvParser {
+class CsvParser(
+    val tasksDict: Set<String>
+) {
     /** Имя, Время начала, время С - ДО, Пн, Вт, Ср, Чт, Пт, Сб, Вс
      * 0: Имя
      * 1: Время начала
@@ -75,24 +77,41 @@ class CsvParser {
     fun parse(fileName: String) {
         val lines = File(fileName).readLines()
 
+        val workers = mutableSetOf<Worker>()
+
         var worker: Worker? = null
         val iterator = lines.listIterator()
+
         while (iterator.hasNext()) {
             var line = iterator.next()
             var data = line.split(",")
+            var name = data[0]
 
             assert(data.size == 10) { iterator.nextIndex() }
 
-            if (line.startsWith("Имя")) {
+
+            if (name == "Имя") {
                 line = iterator.next()
                 data = line.split(",")
-                worker = Worker(name = data[0])
+                name = data[0]
+
+                worker = Worker(name = name)
+                workers.add(worker)
             }
 
 
             worker!!
-            assert(data[0].isEmpty() || data[0] == worker.name)
+            assert(name.isEmpty() || name == worker.name)
+
+            (3..9).map { data[it] }
+                .filter(String::isNotBlank)
+                .filterNot { it in tasksDict }
+                .forEach(::println)
         }
+
+//        workers.forEach { println(it.name) }
+
+
     }
     */
 }
