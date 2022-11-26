@@ -1,4 +1,9 @@
 package ru.vbasakov.church.scheduler.dto
 
-class Task {
-}
+import ru.vbasakov.church.scheduler.service.Days
+
+data class Task(
+    val day: Days,
+    val timePeriod: String,
+    val task: String
+)
