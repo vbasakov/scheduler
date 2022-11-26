@@ -60,7 +60,7 @@ class CsvParser {
 }
 
 private fun Worker.addTaskIfExists(day: Days, task: String, timePeriod: String) {
-    if (timePeriod.isNotEmpty()) {
+    if (task.isNotBlank()) {
         units.add(Task(day, timePeriod, task))
     }
 }
