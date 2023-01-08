@@ -1,11 +1,18 @@
-import type { ProcessedEvent } from "@aldabil/react-scheduler/types";
+import type {ProcessedEvent} from "@aldabil/react-scheduler/types";
+
+function date(s: String | Date): Date {
+    if (typeof s === 'string' || s instanceof String) {
+        return new Date(s.toString())
+    }
+    return s
+}
 
 export const EVENTS: ProcessedEvent[] = [
     {
         event_id: 1,
         title: "Event 1",
-        start: new Date(new Date(new Date().setHours(9)).setMinutes(0)),
-        end: new Date(new Date(new Date().setHours(10)).setMinutes(0)),
+        start: '2023-01-08T13:20:10',
+        end: '2023-01-08T15:20:10',
         disabled: true,
         admin_id: [1, 2, 3, 4]
     },
@@ -69,4 +76,12 @@ export const EVENTS: ProcessedEvent[] = [
         end: new Date(new Date(new Date().setHours(14)).setMinutes(0)),
         admin_id: 2
     }
-];
+].map(
+    x => ({
+        event_id: x.event_id,
+        title: x.title,
+        start: date(x.start),
+        end: date(x.end),
+        disabled: x.disabled,
+        admin_id: x.admin_id
+    }));
