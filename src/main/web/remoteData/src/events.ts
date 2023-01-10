@@ -1,6 +1,6 @@
 import type {ProcessedEvent} from "@aldabil/react-scheduler/types";
 
-function date(s: String | Date): Date {
+export function date(s: String | Date): Date {
     if (typeof s === 'string' || s instanceof String) {
         return new Date(s.toString())
     }

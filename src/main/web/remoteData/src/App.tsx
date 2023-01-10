@@ -4,16 +4,47 @@ import {
     ProcessedEvent,
     ViewEvent
 } from "@aldabil/react-scheduler/types";
-import { EVENTS } from "./events";
+import { EVENTS, date } from "./events";
+
+import axios, { AxiosInstance, AxiosTransformer } from 'axios';
+// const axios = require('axios');
+
 
 export default function App() {
     const fetchRemote = async (query: ViewEvent): Promise<ProcessedEvent[]> => {
         console.log({ query });
         /**Simulate fetchin remote data */
         return new Promise((res) => {
-            setTimeout(() => {
-                res(EVENTS);
-            }, 3000);
+            // setTimeout(() => {
+            //     res(EVENTS);
+            // }, 3000);
+
+            console.log(1234)
+            // Делаем запрос пользователя с данным ID
+            axios.get('/data.json', {
+                params: {
+                    ID: 12345
+                }
+            }).then(function (response) {
+                // обработка успешного запроса
+                console.log(response);
+                res(response.data.map(
+                    x => ({
+                        event_id: x.event_id,
+                        title: x.title,
+                        start: date(x.start),
+                        end: date(x.end),
+                        disabled: x.disabled,
+                        admin_id: x.admin_id
+                    })))
+            }).catch(function (error) {
+                // обработка ошибки
+                console.log(error);
+            }).then(function () {
+                // выполняется всегда
+                console.log('finally');
+            });
+
         });
     };
 
