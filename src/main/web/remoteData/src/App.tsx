@@ -29,7 +29,7 @@ export default function App() {
                 // обработка успешного запроса
                 console.log(response);
                 res(response.data.map(
-                    x => ({
+                     x => ({
                         event_id: x.event_id,
                         title: x.title,
                         start: date(x.start),
